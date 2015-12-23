@@ -103,8 +103,8 @@ int opt_scantime = 7;
 int opt_expiry = 28;
 
 #ifdef HAVE_LIBCURL
-static char *opt_grs_address;
-static char *opt_grs_sig;
+static char *opt_mue_address;
+static char *opt_mue_sig;
 #endif
 
 unsigned long long global_hashrate;
@@ -1571,7 +1571,7 @@ struct opt_table opt_config_table[] = {
       "Disable 'extranonce' stratum subscribe for pool"),
   OPT_WITH_ARG("--pass|--pool-pass|-p",
       set_pass, NULL, NULL,
-      "Password for groestlcoin JSON-RPC server"),
+      "Password for MonetaryUnit JSON-RPC server"),
   OPT_WITHOUT_ARG("--per-device-stats",
       opt_set_bool, &want_per_device_stats,
       "Force verbose mode and output per-device statistics"),
@@ -1802,10 +1802,10 @@ struct opt_table opt_config_table[] = {
       "Set GPU thread concurrency for scrypt mining, comma separated"),
   OPT_WITH_ARG("--url|--pool-url|-o",
       set_url, NULL, NULL,
-      "URL for groestlcoin JSON-RPC server"),
+      "URL for MonetaryUnit JSON-RPC server"),
   OPT_WITH_ARG("--user|--pool-user|-u",
       set_user, NULL, NULL,
-      "Username for groestlcoin JSON-RPC server"),
+      "Username for MonetaryUnit JSON-RPC server"),
   OPT_WITH_ARG("--vectors",
       set_vector, NULL, NULL,
       opt_hidden),
@@ -1822,7 +1822,7 @@ struct opt_table opt_config_table[] = {
       "Override detected optimal worksize - one value or comma separated list"),
   OPT_WITH_ARG("--userpass|--pool-userpass|-O",
       set_userpass, NULL, NULL,
-      "Username:Password pair for groestlcoin JSON-RPC server"),
+      "Username:Password pair for MonetaryUnit JSON-RPC server"),
   OPT_WITHOUT_ARG("--worktime",
       opt_set_bool, &opt_worktime,
       "Display extra work time debug information"),
@@ -1838,11 +1838,11 @@ struct opt_table opt_config_table[] = {
       set_difficulty_multiplier, NULL, NULL,
       "(deprecated) Difficulty multiplier for jobs received from stratum pools"),
   #ifdef HAVE_LIBCURL
-	OPT_WITH_ARG("--grs-address",
-		     opt_set_charp, NULL, &opt_grs_address,
-		     "Set groestlcoin target address when solo mining to groestlcoind (mandatory)"),
-	OPT_WITH_ARG("--grs-sig",
-		     opt_set_charp, NULL, &opt_grs_sig,
+	OPT_WITH_ARG("--mue-address",
+		     opt_set_charp, NULL, &opt_mue_address,
+		     "Set MonetaryUnit target address when solo mining to monetaryunitd (mandatory)"),
+	OPT_WITH_ARG("--mue-sig",
+		     opt_set_charp, NULL, &opt_mue_sig,
 		     "Set signature to add to coinbase when solo mining (optional)"),
 #endif
   OPT_ENDTABLE
@@ -1982,7 +1982,7 @@ static void gbt_merkle_bins(struct pool *pool, json_t *transaction_arr);
  * transaction, and the hashes of the remaining transactions since these
  * remain constant with an altered coinbase when generating work. Must be
  * entered under gbt_lock */
- 
+
  /*
 static bool __build_gbt_txns(struct pool *pool, json_t *res_val)
 {
@@ -2023,8 +2023,8 @@ static bool __build_gbt_txns(struct pool *pool, json_t *res_val)
       quit(1, "Failed to calloc txn_bin in __build_gbt_txns");
     if (unlikely(!hex2bin(txn_bin, txn, txn_len / 2)))
       quit(1, "Failed to hex2bin txn_bin");
-	
-    //gen_hash(txn_bin, txn_len / 2, pool->txn_hashes + (32 * i));		// GRS
+
+    //gen_hash(txn_bin, txn_len / 2, pool->txn_hashes + (32 * i));		// mue
     pool->algorithm.gen_hash(txn_bin, txn_len / 2, pool->txn_hashes + (32 * i));
     free(txn_bin);
   }
@@ -2052,12 +2052,12 @@ static unsigned char *__gbt_merkleroot(struct pool *pool)
     quit(1, "Failed to calloc merkle_hash in __gbt_merkleroot");
 
   gen_hash(pool->coinbase, pool->coinbase_len, merkle_hash);
-  
+
   //pool->algorithm.gen_hash(pool->coinbase, pool->coinbase_len, merkle_hash);
-  
+
   if (pool->gbt_txns)
     memcpy(merkle_hash + 32, pool->txn_hashes, pool->gbt_txns * 32);
-	
+
   txns = pool->gbt_txns + 1;
   while (txns > 1) {
     if (txns % 2) {
@@ -2068,7 +2068,7 @@ static unsigned char *__gbt_merkleroot(struct pool *pool)
       unsigned char hashout[32];
 
       //gen_hash(merkle_hash + (i * 32), 64, hashout);
-      pool->algorithm.gen_hash(merkle_hash + (i * 32), 64, hashout);	// GRS
+      pool->algorithm.gen_hash(merkle_hash + (i * 32), 64, hashout);	// mue
       memcpy(merkle_hash + (i / 2 * 32), hashout, 32);
     }
     txns /= 2;
@@ -2174,8 +2174,8 @@ static void gen_gbt_work(struct pool *pool, struct work *work)
   cg_dwlock(&pool->gbt_lock);
   //merkleroot = __gbt_merkleroot(pool);
   __gbt_merkleroot(pool, merkleroot);
-  
-  
+
+
   memcpy(work->data, &pool->gbt_version, 4);
   memcpy(work->data + 4, pool->previousblockhash, 32);
   memcpy(work->data + 4 + 32 + 32, &pool->curtime, 4);
@@ -2545,8 +2545,8 @@ static bool gbt_solo_decode(struct pool *pool, json_t *res_val)
 	pool->nonce2_offset = 41 + ofs;
 	ofs += 8;
 
-	if (opt_grs_sig) {
-		len = strlen(opt_grs_sig);
+	if (opt_mue_sig) {
+		len = strlen(opt_mue_sig);
 		//if (len > 32) len = 32;
 		if(len > 64)
 		{
@@ -2554,7 +2554,7 @@ static bool gbt_solo_decode(struct pool *pool, json_t *res_val)
 			len = 64;
 		}
 		pool->scriptsig_base[ofs++] = len;
-		cg_memcpy(pool->scriptsig_base + ofs, opt_grs_sig, len);
+		cg_memcpy(pool->scriptsig_base + ofs, opt_mue_sig, len);
 		ofs += len - 1;
 	}
 
@@ -3690,7 +3690,7 @@ static double diff_from_target(void *target)
 	double d64, dcut64;
 
 	//d64 = truediffone;
-	d64 = 256 * truediffone; // 256 is diff_multiplier2 for GRS
+	d64 = 256 * truediffone; // 256 is diff_multiplier2 for mue
 	dcut64 = le256todouble(target);
 	if (unlikely(!dcut64))
 		dcut64 = 1;
@@ -6141,7 +6141,7 @@ retry_stratum:
     rc = work_decode(pool, work, val);
     if (rc) {
       applog(LOG_DEBUG, "Successfully retrieved and deciphered work from %s", get_pool_name(pool));
-      
+
       if (pool->gbt_solo) {
 		ret = setup_gbt_solo(curl, pool);
 		if (ret)
@@ -6149,7 +6149,7 @@ retry_stratum:
 		free_work(work);
 		goto out;
 	}
-      
+
       work->pool = pool;
       work->rolltime = rolltime;
       copy_time(&work->tv_getwork, &tv_getwork);
@@ -6239,12 +6239,12 @@ static bool setup_gbt_solo(CURL *curl, struct pool *pool)
 	bool ret = false;
 	json_t *val = NULL, *res_val, *valid_val;
 
-	if (!opt_grs_address) {
-		applog(LOG_ERR, "No GRS address specified, unable to mine solo on %s",
+	if (!opt_mue_address) {
+		applog(LOG_ERR, "No mue address specified, unable to mine solo on %s",
 		       pool->rpc_url);
 		goto out;
 	}
-	snprintf(s, 256, "{\"id\": 1, \"method\": \"validateaddress\", \"params\": [\"%s\"]}\n", opt_grs_address);
+	snprintf(s, 256, "{\"id\": 1, \"method\": \"validateaddress\", \"params\": [\"%s\"]}\n", opt_mue_address);
 	val = json_rpc_call(curl, curl_err_str, pool->rpc_url, pool->rpc_userpass, s, true,
 			    false, &rolltime, pool, false);
 	if (!val)
@@ -6256,12 +6256,12 @@ static bool setup_gbt_solo(CURL *curl, struct pool *pool)
 	if (!valid_val)
 		goto out;
 	if (!json_is_true(valid_val)) {
-		applog(LOG_ERR, "Groestlcoin address %s is NOT valid", opt_grs_address);
+		applog(LOG_ERR, "MonetaryUnit address %s is NOT valid", opt_mue_address);
 		goto out;
 	}
-	applog(LOG_NOTICE, "Solo mining to valid GRS address: %s", opt_grs_address);
+	applog(LOG_NOTICE, "Solo mining to valid mue address: %s", opt_mue_address);
 	ret = true;
-	address_to_pubkeyhash(pool->script_pubkey, opt_grs_address);
+	address_to_pubkeyhash(pool->script_pubkey, opt_mue_address);
 	hex2bin(scriptsig_header_bin, scriptsig_header, 41);
 	__setup_gbt_solo(pool);
 
@@ -8064,7 +8064,7 @@ retry_pool:
            cp->rpc_url, pool->rpc_url);
     goto out;
   }
-  
+
   if (pool->gbt_solo) {
 	applog(LOG_WARNING, "Block change for %s detection via getblockcount polling",
 		   cp->rpc_url);
@@ -8133,7 +8133,7 @@ retry_pool:
 		}
 	}
   }
-  
+
   /* Any longpoll from any pool is enough for this to be true */
   have_longpoll = true;
 
@@ -9754,7 +9754,7 @@ retry:
 
 #ifdef HAVE_LIBCURL
     struct curl_ent *ce;
-	
+
 	if (pool->gbt_solo) {
 		gen_solo_work(pool, work);
 		applog(LOG_DEBUG, "Generated GBT SOLO work");

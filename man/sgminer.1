@@ -24,11 +24,11 @@ sgminer \- A multi-threaded multi-pool ATI GPU miner for scrypt-based cryptocurr
 [\fB\-c file\fR]
 
 .SH DESCRIPTION
-.B sgminer 
+.B sgminer
 is a multi-threaded multi-pool GPU miner with ATI GPU monitoring, (over)clocking and fanspeed support for scrypt-based cryptocurrency. It is based on cgminer by Con Kolivas (ckolivas), which is in turn based on cpuminer by Jeff Garzik (jgarzik).
 
 .SH USAGE
-.PP 
+.PP
 The classic and best usage of sgminer is to load a json formatted config file which specifies all the options you need. This is done by:
 
 .RS
@@ -69,15 +69,15 @@ Single pool with various GPU options specified:
 .SH OPTIONS
 
 .TP
-.BR \-\-algorithm " " \fIalgorithm\fR 
+.BR \-\-algorithm " " \fIalgorithm\fR
 Set mining algorithm and most common defaults, default: scrypt
 
 .TP
-.BR \-\-api-allow " " \fIaddress\fR 
+.BR \-\-api-allow " " \fIaddress\fR
 Allow API access only to the given list of [G:]IP[/Prefix] addresses[/subnets]
 
 .TP
-.BR \-\-api-description " " \fIdescription\fR 
+.BR \-\-api-description " " \fIdescription\fR
 Description placed in the API status header, default: sgminer version
 
 .TP
@@ -93,15 +93,15 @@ Enable API, default: disabled
 Enable API Multicast listener, default: disabled
 
 .TP
-.BR \-\-api-mcast-addr " " \fIaddress\fR 
+.BR \-\-api-mcast-addr " " \fIaddress\fR
 API Multicast listen address
 
 .TP
-.BR \-\-api-mcast-code " " \fIcode\fR 
+.BR \-\-api-mcast-code " " \fIcode\fR
 Code expected in the API Multicast message, don't use '-'
 
 .TP
-.BR \-\-api-mcast-des " " \fIdescription\fR 
+.BR \-\-api-mcast-des " " \fIdescription\fR
 Description appended to the API Multicast reply, default: ''
 
 .TP
@@ -125,15 +125,15 @@ Automatically adjust all GPU fan speeds to maintain a target temperature
 Automatically adjust all GPU engine clock speeds to maintain a target temperature
 
 .TP
-.BR \-\-balance 
+.BR \-\-balance
 Change multipool strategy from failover to even share balance
 
 .TP
-.BR \-\-benchmark 
+.BR \-\-benchmark
 Run sgminer in benchmark mode - produces no shares
 
 .TP
-.BR \-\-compact 
+.BR \-\-compact
 Use compact display without per device statistics
 
 .TP
@@ -141,27 +141,27 @@ Use compact display without per device statistics
 Enable debug output
 
 .TP
-.BR \-\-description " " \fIdescription\fR 
+.BR \-\-description " " \fIdescription\fR
 Pool description
 
 .TP
-.BR \-d ", " \-\-device " " \fIdevice\fR 
+.BR \-d ", " \-\-device " " \fIdevice\fR
 Select device to use, one value, range and/or comma separated (e.g. 0-2,4) default: all
 
 .TP
-.BR \-\-disable-rejecting 
+.BR \-\-disable-rejecting
 Automatically disable pools that continually reject shares
 
 .TP
-.BR \-E ", " \-\-expiry " " \fIseconds\fR 
+.BR \-E ", " \-\-expiry " " \fIseconds\fR
 Upper bound on how many seconds after getting work we consider a share from it stale (default: 28)
 
 .TP
-.BR \-\-failover-only 
+.BR \-\-failover-only
 Don't leak work to backup pools when primary pool is lagging
 
 .TP
-.BR \-\-failover-switch-delay " " \fIseconds\fR 
+.BR \-\-failover-switch-delay " " \fIseconds\fR
 Delay in seconds before switching back to a failed pool (default: 60)
 
 .TP
@@ -169,15 +169,15 @@ Delay in seconds before switching back to a failed pool (default: 60)
 Do not redirect to a different getwork protocol (eg. stratum)
 
 .TP
-.BR \-\-gpu-dyninterval " " \fImilliseconds\fR 
+.BR \-\-gpu-dyninterval " " \fImilliseconds\fR
 Set the refresh interval in ms for GPUs using dynamic intensity (default: 7)
 
 .TP
-.BR \-\-gpu-platform " " \fIplatform id\fR 
+.BR \-\-gpu-platform " " \fIplatform id\fR
 Select OpenCL platform ID to use for GPU mining (default: -1)
 
 .TP
-.BR \-g ", " \-\-gpu-threads " " \fIthreads\fR 
+.BR \-g ", " \-\-gpu-threads " " \fIthreads\fR
 Number of threads per GPU - one value or comma separated list (e.g. 1,2,1)
 
 .TP
@@ -185,27 +185,27 @@ Number of threads per GPU - one value or comma separated list (e.g. 1,2,1)
 GPU engine (over)clock range in Mhz - one value, range and/or comma separated list (e.g. 850-900,900,750-850)
 
 .TP
-.BR \-\-gpu-fan " " \fIpercentage\fR 
+.BR \-\-gpu-fan " " \fIpercentage\fR
 GPU fan percentage range - one value, range and/or comma separated list (e.g. 0-85,85,65)
 
 .TP
-.BR \-\-gpu-map " " \fIdevice order\fR 
+.BR \-\-gpu-map " " \fIdevice order\fR
 Map OpenCL to ADL device order manually, paired CSV (e.g. 1:0,2:1 maps OpenCL 1 to ADL 0, 2 to 1)
 
 .TP
-.BR \-\-gpu-memclock " " \fImhz\fR 
+.BR \-\-gpu-memclock " " \fImhz\fR
 Set the GPU memory (over)clock in Mhz - one value for all or separate by commas for per card
 
 .TP
-.BR \-\-gpu-memdiff " " \fImhz\fR 
+.BR \-\-gpu-memdiff " " \fImhz\fR
 Set a fixed difference in clock speed between the GPU and memory in auto-gpu mode
 
 .TP
-.BR \-\-gpu-powertune " " \fIpowertune percentage\fR 
+.BR \-\-gpu-powertune " " \fIpowertune percentage\fR
 Set the GPU powertune percentage - one value for all or separate by commas for per card
 
 .TP
-.BR \-\-gpu-reorder 
+.BR \-\-gpu-reorder
 Attempt to reorder GPU devices according to PCI Bus ID
 
 .TP
@@ -217,27 +217,27 @@ Set the GPU voltage in Volts - one value for all or separate by commas for per c
 Set GPU lookup gap for scrypt mining, comma separated
 
 .TP
-.BR \-\-incognito 
+.BR \-\-incognito
 Do not display user name in status window
 
 .TP
-.BR \-I ", " \-\-intensity " " \fIintensity\fR 
+.BR \-I ", " \-\-intensity " " \fIintensity\fR
 Intensity of GPU scanning (d or 8 -> 31,default: d to maintain desktop interactivity), overridden by \-\-xintensity or \-\-rawintensity.
 
 .TP
-.BR \-X ", " \-\-xintensity " " \fIintensity\fR 
+.BR \-X ", " \-\-xintensity " " \fIintensity\fR
 Shader based intensity of GPU scanning (1 to 9999), overrides \-\-intensity, overridden by \-\-rawintensity.
 
 .TP
-.BR \-\-rawintensity " " \fIintensity\fR 
+.BR \-\-rawintensity " " \fIintensity\fR
 Raw intensity of GPU scanning (1 to 2147483647), overrides \-\-intensity and \-\-xintensity.
 
 .TP
-.BR \-K ", " \-\-kernel-path " " \fIpath\fR 
+.BR \-K ", " \-\-kernel-path " " \fIpath\fR
 Specify a path to where kernel files are (default: "/usr/local/bin")
 
 .TP
-.BR \-k ", " \-\-kernel " " \fIkernel\fR 
+.BR \-k ", " \-\-kernel " " \fIkernel\fR
 Override kernel to use - one value or comma separated
 
 .TP
@@ -265,11 +265,11 @@ Use custom pipe cmd for output messages
 Name of pool
 
 .TP
-.BR \-\-net-delay 
+.BR \-\-net-delay
 Impose small delays in networking to not overload slow routers
 
 .TP
-.BR \-\-nfactor " " \fIn-factor\fR 
+.BR \-\-nfactor " " \fIn-factor\fR
 Override default scrypt N-factor parameter.
 
 .TP
@@ -277,7 +277,7 @@ Override default scrypt N-factor parameter.
 Disable the ATI display library used for monitoring and setting GPU parameters
 
 .TP
-.BR \-\-no-client-reconnect 
+.BR \-\-no-client-reconnect
 Disable 'client.reconnect' stratum functionality
 
 .TP
@@ -285,12 +285,12 @@ Disable 'client.reconnect' stratum functionality
 Do not attempt to restart GPUs that hang
 
 .TP
-.BR \-\-no-submit-stale 
+.BR \-\-no-submit-stale
 Don't submit shares if they are detected as stale
 
 .TP
-.BR \-p ", " \-\-pass " " \fIpassword\fR 
-Password for groestlcoin JSON-RPC server
+.BR \-p ", " \-\-pass " " \fIpassword\fR
+Password for MonetaryUnit JSON-RPC server
 
 .TP
 .BR \-\-per-device-stats
@@ -321,7 +321,7 @@ URL combination for server with load-balance strategy quotas
 Disable all output
 
 .TP
-.BR \-\-remove-disabled 
+.BR \-\-remove-disabled
 Remove disabled devices entirely, as if they didn't exist
 
 .TP
@@ -329,15 +329,15 @@ Remove disabled devices entirely, as if they didn't exist
 Change multipool strategy from failover to regularly rotate at N minutes (default: 0)
 
 .TP
-.BR \-\-round-robin 
+.BR \-\-round-robin
 Change multipool strategy from failover to round robin on failure
 
 .TP
-.BR \-s ", " \-\-scan-time " " \fIseconds\fR 
+.BR \-s ", " \-\-scan-time " " \fIseconds\fR
 Upper bound on time spent scanning current work, in seconds (default: 7)
 
 .TP
-.BR \-\-sched-start " " \fIhh:mm\fR 
+.BR \-\-sched-start " " \fIhh:mm\fR
 Set a time of day in HH:MM to start mining (a once off without a stop time)
 
 .TP
@@ -345,7 +345,7 @@ Set a time of day in HH:MM to start mining (a once off without a stop time)
 Set a time of day in HH:MM to stop mining (will quit without a start time)
 
 .TP
-.BR \-\-shaders " " \fIshaders\fR 
+.BR \-\-shaders " " \fIshaders\fR
 GPU shaders per card for tuning scrypt, comma separated
 
 .TP
@@ -357,11 +357,11 @@ Append share log to file
 Quit after mining N shares (default: unlimited)
 
 .TP
-.BR \-\-socks-proxy " " \fIhost:port\fR 
+.BR \-\-socks-proxy " " \fIhost:port\fR
 Set socks4 proxy (host:port)
 
 .TP
-.BR \-\-state " " \fIstate\fR 
+.BR \-\-state " " \fIstate\fR
 Specify pool state at startup (default: enabled)
 
 .TP
@@ -369,23 +369,23 @@ Specify pool state at startup (default: enabled)
 Use system log for output messages (default: standard error)
 
 .TP
-.BR \-\-tcp-keepalive " " \fIseconds\fR 
+.BR \-\-tcp-keepalive " " \fIseconds\fR
 TCP keepalive packet idle time (default: 30)
 
 .TP
-.BR \-\-temp-cutoff " " \fIdegrees\fR 
+.BR \-\-temp-cutoff " " \fIdegrees\fR
 Temperature which a device will be automatically disabled at, one value or comma separated list (default: 95)
 
 .TP
-.BR \-\-temp-hysteresis " " \fIdegrees\fR 
+.BR \-\-temp-hysteresis " " \fIdegrees\fR
 Set how much the temperature can fluctuate outside limits when automanaging speeds (default: 3)
 
 .TP
-.BR \-\-temp-overheat " " \fIdegrees\fR 
+.BR \-\-temp-overheat " " \fIdegrees\fR
 Temperature which a device will be throttled at while automanaging fan and/or GPU, one value or comma separated list (default: 85)
 
 .TP
-.BR \-\-temp-target " " \fIdegrees\fR 
+.BR \-\-temp-target " " \fIdegrees\fR
 Temperature which a device should stay at while automanaging fan and/or GPU, one value or comma separated list (default: 75)
 
 .TP
@@ -393,54 +393,54 @@ Temperature which a device should stay at while automanaging fan and/or GPU, one
 Disable ncurses formatted screen output
 
 .TP
-.BR \-\-thread-concurrency " " \fIthreads\fR 
+.BR \-\-thread-concurrency " " \fIthreads\fR
 Set GPU thread concurrency for scrypt mining, comma separated
 
 .TP
 .BR \-o ", " \-\-url " " \fIurl\fR
-URL for groestlcoin JSON-RPC server
+URL for MonetaryUnit JSON-RPC server
 
 .TP
-.BR \-\-pool-algorithm " " \fIalgorithm\fR 
+.BR \-\-pool-algorithm " " \fIalgorithm\fR
 Set algorithm for pool
 
 .TP
-.BR \-\-pool-nfactor " " \fIn-factor\fR 
+.BR \-\-pool-nfactor " " \fIn-factor\fR
 Set N-factor for pool
 
 .TP
-.BR \-u ", " \-\-user " " \fIusername\fR 
-Username for groestlcoin JSON-RPC server
+.BR \-u ", " \-\-user " " \fIusername\fR
+Username for MonetaryUnit JSON-RPC server
 
 .TP
 .BR \-v ", " \-\-verbose
 Log verbose output to stderr as well as status output
 
 .TP
-.BR \-w ", " \-\-worksize " " \fIworksize\fR 
+.BR \-w ", " \-\-worksize " " \fIworksize\fR
 Override detected optimal worksize - one value or comma separated list
 
 .TP
-.BR \-O ", " \-\-userpass " " \fIusername:password\fR 
-Username:Password pair for groestlcoin JSON-RPC server
+.BR \-O ", " \-\-userpass " " \fIusername:password\fR
+Username:Password pair for MonetaryUnit JSON-RPC server
 
 .TP
 .BR \-\-worktime
 Display extra work time debug information
 
 .TP
-.BR \-c ", " \-\-config " " \fIfile\fR 
+.BR \-c ", " \-\-config " " \fIfile\fR
 Load a JSON-format configuration file
 
 See example.conf for an example configuration.
 
 .TP
-.BR \-\-default-config " " \fIfile\fR 
+.BR \-\-default-config " " \fIfile\fR
 Specify the filename of the default config file
 Loaded at start and used when saving without a name.
 
 .TP
-.BR \-h ", " \-\-help 
+.BR \-h ", " \-\-help
 Print this message
 
 .TP
@@ -455,11 +455,11 @@ Display version and exit
 .SH REPORTING BUGS
 
 git tree: https://github.com/sgminer-dev/sgminer
-.br 
+.br
 bugtracker: https://github.com/sgminer-dev/sgminer/issues
-.br 
+.br
 irc: #sgminer and #sgminer-dev on freenode
-.br 
+.br
 mailing lists: https://sourceforge.net/p/sgminer/mailman/
 
 
